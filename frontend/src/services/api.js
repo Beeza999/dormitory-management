@@ -1,24 +1,24 @@
 import axios from 'axios';
 
-const ເອພີໄອ = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
+const api = axios.create({
+  baseURL: import.meta.env.VITE_API_URL || '/api',
 });
 
-const ອ່ານໂທເຄັນ = () => sessionStorage.getItem('token') || '';
+const getToken = () => sessionStorage.getItem('token') || '';
 
-ເອພີໄອ.interceptors.request.use((config) => {
-  const token = ອ່ານໂທເຄັນ();
+api.interceptors.request.use((config) => {
+  const token = getToken();
   if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+    config.headers.Authorization = \Bearer \\;
   }
   return config;
 });
 
 export const getAssetUrl = (path = '') => {
   if (!path) return '';
-  const rawBase = import.meta.env.VITE_API_ROOT || 'http://localhost:5000';
+  const rawBase = import.meta.env.VITE_API_ROOT || '';
   if (path.startsWith('http')) return path;
-  return `${rawBase}${path}`;
+  return \\\\;
 };
 
-export default ເອພີໄອ;
+export default api;
