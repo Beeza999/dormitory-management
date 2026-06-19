@@ -4,7 +4,7 @@ import api from "../../services/api";
 import Toast from "../../components/common/Toast";
 import { useToast } from "../../components/common/useToast";
 import { fmtDate, fmtMoney, fmtMonthYear } from "../../utils/format";
-import qrImage from "../../assets/qr.jpg";
+import qrImage from "../../assets/QR.jpg";
 
 export default function UserPaymentPage() {
   const [bills, setBills] = useState([]);
