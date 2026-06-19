@@ -1,4 +1,4 @@
-import { useTranslation } from '../utils/i18n';
+import { useLanguageStore } from '../utils/i18n';
 import { create } from 'zustand';
 import api from '../services/api';
 
@@ -6,8 +6,7 @@ const ອ່ານ = (key, fallback = '') => sessionStorage.getItem(key) || fall
 const ຂຽນ = (key, value) => sessionStorage.setItem(key, value);
 const ລຶບ = (key) => sessionStorage.removeItem(key);
 
-const ຂໍ້ຄວາມບັນຊີຖືກປິດ =
-  t('login.disabled', 'ບັນຊີຂອງທ່ານຖືກປິດການໃຊ້ງານ ກະລຸນາຕິດຕໍ່ເຈົ້າຂອງຫ້ອງເຊົ່າ');
+
 
 const ຈັດຮູບແບບຜູ້ໃຊ້ = (user) => ({
   _id: user?._id || user?.id || '',
@@ -18,6 +17,16 @@ const ຈັດຮູບແບບຜູ້ໃຊ້ = (user) => ({
   roomId: user?.roomId || null,
   isActive: user?.isActive ?? true,
 });
+
+const getAccountDisabledMessage = () => {
+  const lang = useLanguageStore.getState().language;
+  const messages = {
+    la: 'ບັນຊີຂອງທ່ານຖືກປິດການໃຊ້ງານ ກະລຸນາຕິດຕໍ່ເຈົ້າຂອງຫ້ອງເຊົ່າ',
+    vi: 'Tài khoản của bạn đã bị vô hiệu hóa, vui lòng liên hệ chủ nhà',
+    en: 'Your account is disabled, please contact the owner',
+  };
+  return messages[lang] || messages.la;
+};
 
 export const useAuthStore = create((set, get) => ({
   token: ອ່ານ('token'),
@@ -33,7 +42,7 @@ export const useAuthStore = create((set, get) => ({
       const user = ຈັດຮູບແບບຜູ້ໃຊ້(data.user);
 
       if (user.isActive === false) {
-        sessionStorage.setItem('auth_message', ຂໍ້ຄວາມບັນຊີຖືກປິດ);
+        sessionStorage.setItem('auth_message', getAccountDisabledMessage());
         set({ isLoading: false });
         throw new Error('ACCOUNT_DISABLED');
       }
@@ -47,7 +56,7 @@ export const useAuthStore = create((set, get) => ({
       if (code === 'ACCOUNT_DISABLED') {
         sessionStorage.setItem(
           'auth_message',
-          error.response?.data?.message || ຂໍ້ຄວາມບັນຊີຖືກປິດ,
+          error.response?.data?.message || getAccountDisabledMessage(),
         );
       }
 
@@ -87,7 +96,7 @@ export const useAuthStore = create((set, get) => ({
       const user = ຈັດຮູບແບບຜູ້ໃຊ້(data.user);
 
       if (user.isActive === false) {
-        sessionStorage.setItem('auth_message', ຂໍ້ຄວາມບັນຊີຖືກປິດ);
+        sessionStorage.setItem('auth_message', getAccountDisabledMessage());
         await get().logout();
         window.location.href = '/login';
         return;
@@ -102,7 +111,7 @@ export const useAuthStore = create((set, get) => ({
       if (code === 'ACCOUNT_DISABLED') {
         sessionStorage.setItem(
           'auth_message',
-          message || ຂໍ້ຄວາມບັນຊີຖືກປິດ,
+          message || getAccountDisabledMessage(),
         );
       }
 
