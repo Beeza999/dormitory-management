@@ -1,3 +1,4 @@
+import { useTranslation } from '../../utils/i18n';
 import { useEffect, useState } from 'react';
 import PageHeader from '../../components/common/PageHeader';
 import api from '../../services/api';
@@ -16,6 +17,7 @@ const ຄ່າເລີ່ມຕົ້ນ = {
 };
 
 export default function TenantsPage() {
+  const { t } = useTranslation();
   const [tenants, setTenants] = useState([]);
   const [rooms, setRooms] = useState([]);
   const [open, setOpen] = useState(false);
@@ -37,7 +39,7 @@ export default function TenantsPage() {
         ),
       );
     } catch (error) {
-      pushToast(error.response?.data?.message || 'ໂຫຼດຂໍ້ມູນບໍ່ສຳເລັດ', 'error');
+      pushToast(error.response?.data?.message || t('k_0169', 'ໂຫຼດຂໍ້ມູນບໍ່ສຳເລັດ'), 'error');
     }
   };
 
@@ -78,7 +80,7 @@ export default function TenantsPage() {
       resetForm();
       loadData();
     } catch (error) {
-      pushToast(error.response?.data?.message || 'ບັນທຶກບໍ່ສຳເລັດ', 'error');
+      pushToast(error.response?.data?.message || t('k_0059', 'ບັນທຶກບໍ່ສຳເລັດ'), 'error');
     }
   };
 
@@ -109,19 +111,19 @@ export default function TenantsPage() {
       const { data } = await api.patch(`/tenants/${tenant._id}/toggle-status`);
       pushToast(
         data?.message ||
-          (isActive ? 'ປິດການໃຊ້ງານສຳເລັດ' : 'ເປີດການໃຊ້ງານສຳເລັດ'),
+          (isActive ? t('k_0081', 'ປິດການໃຊ້ງານສຳເລັດ') : t('k_0144', 'ເປີດການໃຊ້ງານສຳເລັດ')),
       );
       loadData();
     } catch (error) {
-      pushToast(error.response?.data?.message || 'ລົ້ມເຫຼວ', 'error');
+      pushToast(error.response?.data?.message || t('k_0097', 'ລົ້ມເຫຼວ'), 'error');
     }
   };
 
   return (
     <div className="space-y-6">
       <PageHeader
-        title="ຈັດການຜູ້ເຊົ່າ"
-        subtitle="ສ້າງ, ແກ້ໄຂ, ແລະ ກຳນົດຫ້ອງພັກ"
+        title={t('k_0035', 'ຈັດການຜູ້ເຊົ່າ')}
+        subtitle={t('k_0115', 'ສ້າງ, ແກ້ໄຂ, ແລະ ກຳນົດຫ້ອງພັກ')}
         action={
           <button
             className="btn-primary"
@@ -129,9 +131,7 @@ export default function TenantsPage() {
               resetForm();
               setOpen(true);
             }}
-          >
-            ເພີ່ມຜູ້ເຊົ່າ
-          </button>
+          >{t('k_0146', 'ເພີ່ມຜູ້ເຊົ່າ')}</button>
         }
       />
 
@@ -139,13 +139,13 @@ export default function TenantsPage() {
         <table className="table-ui">
           <thead>
             <tr>
-              <th>ຊື່</th>
-              <th>ອີເມວ</th>
-              <th>ເບີໂທ</th>
-              <th>ຫ້ອງ</th>
-              <th>ເລີ່ມພັກ</th>
-              <th>ສະຖານະ</th>
-              <th>ຈັດການ</th>
+              <th>{t('k_0042', 'ຊື່')}</th>
+              <th>{t('login.email', 'ອີເມວ')}</th>
+              <th>{t('k_0143', 'ເບີໂທ')}</th>
+              <th>{t('nav.rooms', 'ຫ້ອງ')}</th>
+              <th>{t('k_0150', 'ເລີ່ມພັກ')}</th>
+              <th>{t('k_0103', 'ສະຖານະ')}</th>
+              <th>{t('k_0033', 'ຈັດການ')}</th>
             </tr>
           </thead>
           <tbody>
@@ -172,7 +172,7 @@ export default function TenantsPage() {
                             : 'bg-rose-100 text-rose-700'
                         }`}
                       >
-                        {isActive ? 'ກຳລັງໃຊ້ງານ' : 'ຖືກປິດ'}
+                        {isActive ? t('k_0017', 'ກຳລັງໃຊ້ງານ') : t('k_0054', 'ຖືກປິດ')}
                       </span>
                     </td>
                     <td>
@@ -180,14 +180,12 @@ export default function TenantsPage() {
                         <button
                           className="btn-outline py-2"
                           onClick={() => onEdit(tenant)}
-                        >
-                          ແກ້ໄຂ
-                        </button>
+                        >{t('k_0159', 'ແກ້ໄຂ')}</button>
                         <button
                           className={isActive ? 'btn-danger py-2' : 'btn-primary py-2'}
                           onClick={() => onToggleStatus(tenant)}
                         >
-                          {isActive ? 'ປິດໃຊ້ງານ' : 'ເປີດໃຊ້ງານ'}
+                          {isActive ? t('k_0082', 'ປິດໃຊ້ງານ') : t('k_0145', 'ເປີດໃຊ້ງານ')}
                         </button>
                       </div>
                     </td>
@@ -196,9 +194,7 @@ export default function TenantsPage() {
               })
             ) : (
               <tr className="border-t border-slate-100">
-                <td colSpan="7" className="py-8 text-center text-sm text-slate-500">
-                  ບໍ່ມີຂໍ້ມູນຜູ້ເຊົ່າ
-                </td>
+                <td colSpan="7" className="py-8 text-center text-sm text-slate-500">{t('k_0066', 'ບໍ່ມີຂໍ້ມູນຜູ້ເຊົ່າ')}</td>
               </tr>
             )}
           </tbody>
@@ -207,7 +203,7 @@ export default function TenantsPage() {
 
       <Modal
         open={open}
-        title={editingId ? 'ແກ້ໄຂຜູ້ເຊົ່າ' : 'ເພີ່ມຜູ້ເຊົ່າ'}
+        title={editingId ? t('k_0163', 'ແກ້ໄຂຜູ້ເຊົ່າ') : t('k_0146', 'ເພີ່ມຜູ້ເຊົ່າ')}
         onClose={() => {
           setOpen(false);
           resetForm();
@@ -215,7 +211,7 @@ export default function TenantsPage() {
       >
         <form onSubmit={submit} className="grid gap-4 md:grid-cols-2">
           <div>
-            <label className="label">ຊື່</label>
+            <label className="label">{t('k_0042', 'ຊື່')}</label>
             <input
               className="input"
               type="text"
@@ -226,7 +222,7 @@ export default function TenantsPage() {
           </div>
 
           <div>
-            <label className="label">ອີເມວ</label>
+            <label className="label">{t('login.email', 'ອີເມວ')}</label>
             <input
               className="input"
               type="email"
@@ -237,7 +233,7 @@ export default function TenantsPage() {
           </div>
 
           <div>
-            <label className="label">ເບີໂທ</label>
+            <label className="label">{t('k_0143', 'ເບີໂທ')}</label>
             <input
               className="input"
               type="text"
@@ -247,7 +243,7 @@ export default function TenantsPage() {
           </div>
 
           <div>
-            <label className="label">ວັນເລີ່ມພັກ</label>
+            <label className="label">{t('k_0101', 'ວັນເລີ່ມພັກ')}</label>
             <input
               className="input"
               type="date"
@@ -258,7 +254,7 @@ export default function TenantsPage() {
 
           {!editingId ? (
             <div>
-              <label className="label">ລະຫັດຜ່ານ</label>
+              <label className="label">{t('login.password', 'ລະຫັດຜ່ານ')}</label>
               <input
                 className="input"
                 type="text"
@@ -269,13 +265,13 @@ export default function TenantsPage() {
           ) : null}
 
           <div>
-            <label className="label">ຫ້ອງ</label>
+            <label className="label">{t('nav.rooms', 'ຫ້ອງ')}</label>
             <select
               className="input"
               value={form.roomId}
               onChange={(e) => setForm((prev) => ({ ...prev, roomId: e.target.value }))}
             >
-              <option value="">ບໍ່ໄດ້ກຳນົດ</option>
+              <option value="">{t('k_0073', 'ບໍ່ໄດ້ກຳນົດ')}</option>
               {rooms.map((room) => (
                 <option key={room._id} value={room._id}>
                   {room.building}-{room.roomNumber}
@@ -292,12 +288,8 @@ export default function TenantsPage() {
                 setOpen(false);
                 resetForm();
               }}
-            >
-              ຍົກເລີກ
-            </button>
-            <button type="submit" className="btn-primary">
-              ບັນທຶກ
-            </button>
+            >{t('k_0049', 'ຍົກເລີກ')}</button>
+            <button type="submit" className="btn-primary">{t('k_0055', 'ບັນທຶກ')}</button>
           </div>
         </form>
       </Modal>

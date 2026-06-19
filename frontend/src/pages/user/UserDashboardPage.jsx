@@ -1,3 +1,4 @@
+import { useTranslation } from '../../utils/i18n';
 import { Bell, CreditCard, FileClock, Megaphone, MessageCircle, Receipt, Wallet } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -16,6 +17,7 @@ const menus = [
 ];
 
 export default function UserDashboardPage() {
+  const { t } = useTranslation();
   const [bills, setBills] = useState([]);
   const [notifications, setNotifications] = useState([]);
   const [announcements, setAnnouncements] = useState([]);
@@ -51,13 +53,13 @@ export default function UserDashboardPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader title="ໜ້າຫຼັກ" subtitle="ກົດເຂົ້າໜ້າຕ່າງໆໄດ້ທັນທີ" />
+      <PageHeader title={t('nav.home', 'ໜ້າຫຼັກ')} subtitle={t('k_0021', 'ກົດເຂົ້າໜ້າຕ່າງໆໄດ້ທັນທີ')} />
 
       <div className="grid gap-4 md:grid-cols-4">
-        <div className="card p-5"><Receipt className="h-8 w-8 text-brand-600" /><p className="mt-3 text-sm text-slate-500">ບິນລ່າສຸດ</p><p className="mt-2 text-2xl font-black">{latestBill ? fmtMoney(latestBill.totalAmount) : '-'}</p></div>
-        <div className="card p-5"><Wallet className="h-8 w-8 text-rose-600" /><p className="mt-3 text-sm text-slate-500">ຍອດຄ້າງ</p><p className="mt-2 text-2xl font-black">{fmtMoney(unpaidAmount)}</p></div>
-        <div className="card p-5"><Bell className="h-8 w-8 text-amber-600" /><p className="mt-3 text-sm text-slate-500">ແຈ້ງເຕືອນໃໝ່</p><p className="mt-2 text-2xl font-black">{unreadCount}</p></div>
-        <div className="card p-5"><Megaphone className="h-8 w-8 text-sky-600" /><p className="mt-3 text-sm text-slate-500">ປະກາດ</p><p className="mt-2 text-2xl font-black">{announcements.length}</p></div>
+        <div className="card p-5"><Receipt className="h-8 w-8 text-brand-600" /><p className="mt-3 text-sm text-slate-500">{t('k_0063', 'ບິນລ່າສຸດ')}</p><p className="mt-2 text-2xl font-black">{latestBill ? fmtMoney(latestBill.totalAmount) : '-'}</p></div>
+        <div className="card p-5"><Wallet className="h-8 w-8 text-rose-600" /><p className="mt-3 text-sm text-slate-500">{t('k_0044', 'ຍອດຄ້າງ')}</p><p className="mt-2 text-2xl font-black">{fmtMoney(unpaidAmount)}</p></div>
+        <div className="card p-5"><Bell className="h-8 w-8 text-amber-600" /><p className="mt-3 text-sm text-slate-500">{t('k_0166', 'ແຈ້ງເຕືອນໃໝ່')}</p><p className="mt-2 text-2xl font-black">{unreadCount}</p></div>
+        <div className="card p-5"><Megaphone className="h-8 w-8 text-sky-600" /><p className="mt-3 text-sm text-slate-500">{t('nav.announcements', 'ປະກາດ')}</p><p className="mt-2 text-2xl font-black">{announcements.length}</p></div>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
@@ -66,7 +68,7 @@ export default function UserDashboardPage() {
             <div className="rounded-2xl bg-slate-100 p-3"><Icon className="h-6 w-6 text-slate-900" /></div>
             <div>
               <p className="font-bold text-slate-900">{label}</p>
-              <p className="text-sm text-slate-500">ກົດເຂົ້າໄດ້ເລີຍ</p>
+              <p className="text-sm text-slate-500">{t('k_0020', 'ກົດເຂົ້າໄດ້ເລີຍ')}</p>
             </div>
           </Link>
         ))}
@@ -76,13 +78,13 @@ export default function UserDashboardPage() {
         <div className="card p-6">
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div>
-              <h3 className="text-lg font-bold">ບິນປະຈຳເດືອນ {fmtMonthYear(latestBill.month, latestBill.year)}</h3>
-              <p className="mt-1 text-sm text-slate-500">ຄົບກຳນົດ {fmtDate(latestBill.dueDate)}</p>
+              <h3 className="text-lg font-bold">{t('k_0062', 'ບິນປະຈຳເດືອນ')}{fmtMonthYear(latestBill.month, latestBill.year)}</h3>
+              <p className="mt-1 text-sm text-slate-500">{t('k_0024', 'ຄົບກຳນົດ')}{fmtDate(latestBill.dueDate)}</p>
             </div>
             <div className="flex flex-wrap gap-3">
               <StatusBadge value={latestBill.status} />
-              <Link className="btn-secondary" to="/user/bills">ເບິ່ງບິນ</Link>
-              <Link className="btn-primary" to="/user/payment"><CreditCard className="mr-2 h-4 w-4" />ອັບໃບບີນການຈ່າຍເງິນ</Link>
+              <Link className="btn-secondary" to="/user/bills">{t('k_0141', 'ເບິ່ງບິນ')}</Link>
+              <Link className="btn-primary" to="/user/payment"><CreditCard className="mr-2 h-4 w-4" />{t('k_0131', 'ອັບໃບບີນການຈ່າຍເງິນ')}</Link>
             </div>
           </div>
         </div>
@@ -91,8 +93,8 @@ export default function UserDashboardPage() {
       <div className="grid gap-6 lg:grid-cols-2">
         <div className="card p-6">
           <div className="mb-4 flex items-center justify-between">
-            <h3 className="text-lg font-bold">ແຈ້ງເຕືອນລ່າສຸດ</h3>
-            <Link to="/user/notifications" className="text-sm font-semibold text-brand-700">ເບິ່ງທັງໝົດ</Link>
+            <h3 className="text-lg font-bold">{t('k_0165', 'ແຈ້ງເຕືອນລ່າສຸດ')}</h3>
+            <Link to="/user/notifications" className="text-sm font-semibold text-brand-700">{t('k_0140', 'ເບິ່ງທັງໝົດ')}</Link>
           </div>
           <div className="space-y-3">
             {notifications.length > 0 ? notifications.slice(0, 4).map((item) => (
@@ -100,14 +102,14 @@ export default function UserDashboardPage() {
                 <p className="font-semibold">{item.title}</p>
                 <p className="mt-1 text-sm text-slate-600">{item.message}</p>
               </div>
-            )) : <div className="rounded-2xl bg-slate-50 p-4 text-sm text-slate-500">ບໍ່ມີແຈ້ງເຕືອນ</div>}
+            )) : <div className="rounded-2xl bg-slate-50 p-4 text-sm text-slate-500">{t('k_0071', 'ບໍ່ມີແຈ້ງເຕືອນ')}</div>}
           </div>
         </div>
 
         <div className="card p-6">
           <div className="mb-4 flex items-center justify-between">
-            <h3 className="text-lg font-bold">ປະກາດລ່າສຸດ</h3>
-            <Link to="/user/announcements" className="text-sm font-semibold text-brand-700">ເບິ່ງທັງໝົດ</Link>
+            <h3 className="text-lg font-bold">{t('k_0074', 'ປະກາດລ່າສຸດ')}</h3>
+            <Link to="/user/announcements" className="text-sm font-semibold text-brand-700">{t('k_0140', 'ເບິ່ງທັງໝົດ')}</Link>
           </div>
           <div className="space-y-3">
             {announcements.length > 0 ? announcements.slice(0, 4).map((item) => (
@@ -115,7 +117,7 @@ export default function UserDashboardPage() {
                 <p className="font-semibold">{item.title}</p>
                 <p className="mt-1 text-sm text-slate-600">{item.message}</p>
               </div>
-            )) : <div className="rounded-2xl bg-slate-50 p-4 text-sm text-slate-500">ບໍ່ມີປະກາດ</div>}
+            )) : <div className="rounded-2xl bg-slate-50 p-4 text-sm text-slate-500">{t('k_0069', 'ບໍ່ມີປະກາດ')}</div>}
           </div>
         </div>
       </div>

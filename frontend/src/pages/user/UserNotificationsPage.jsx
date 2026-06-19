@@ -1,3 +1,4 @@
+import { useTranslation } from '../../utils/i18n';
 import { useEffect, useState } from 'react';
 import PageHeader from '../../components/common/PageHeader';
 import api from '../../services/api';
@@ -6,6 +7,7 @@ import { useToast } from '../../components/common/useToast';
 import { fmtDate } from '../../utils/format';
 
 export default function UserNotificationsPage() {
+  const { t } = useTranslation();
   const [notifications, setNotifications] = useState([]);
   const { toast, pushToast, clearToast } = useToast();
 
@@ -27,13 +29,13 @@ export default function UserNotificationsPage() {
       pushToast('ອ່ານແລ້ວ');
       load();
     } catch (error) {
-      pushToast(error.response?.data?.message || 'ລົ້ມເຫຼວ', 'error');
+      pushToast(error.response?.data?.message || t('k_0097', 'ລົ້ມເຫຼວ'), 'error');
     }
   };
 
   return (
     <div className="space-y-6">
-      <PageHeader title="ແຈ້ງເຕືອນ" subtitle="ເບິ່ງ ແລະ ກົດອ່ານແລ້ວ" />
+      <PageHeader title={t('nav.notifications', 'ແຈ້ງເຕືອນ')} subtitle={t('k_0139', 'ເບິ່ງ ແລະ ກົດອ່ານແລ້ວ')} />
       <div className="space-y-4">
         {notifications.length > 0 ? notifications.map((item) => (
           <div key={item._id} className="card p-5">
@@ -43,10 +45,10 @@ export default function UserNotificationsPage() {
                 <p className="mt-1 text-sm text-slate-600">{item.message}</p>
                 <p className="mt-2 text-xs text-slate-400">{fmtDate(item.createdAt)}</p>
               </div>
-              {!item.isRead ? <button className="btn-primary" onClick={() => markRead(item._id)}>ອ່ານແລ້ວ</button> : <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700">ອ່ານແລ້ວ</span>}
+              {!item.isRead ? <button className="btn-primary" onClick={() => markRead(item._id)}>{t('k_0133', 'ອ່ານແລ້ວ')}</button> : <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700">{t('k_0133', 'ອ່ານແລ້ວ')}</span>}
             </div>
           </div>
-        )) : <div className="card p-5 text-sm text-slate-500">ບໍ່ມີແຈ້ງເຕືອນ</div>}
+        )) : <div className="card p-5 text-sm text-slate-500">{t('k_0071', 'ບໍ່ມີແຈ້ງເຕືອນ')}</div>}
       </div>
       <Toast toast={toast} onClose={clearToast} />
     </div>

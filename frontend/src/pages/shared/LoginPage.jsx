@@ -1,3 +1,4 @@
+import { useTranslation } from '../../utils/i18n';
 import { Building2, KeyRound, Mail } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -6,6 +7,7 @@ import Toast from "../../components/common/Toast";
 import { useToast } from "../../components/common/useToast";
 
 export default function LoginPage() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const login = useAuthStore((state) => state.login);
   const isLoading = useAuthStore((state) => state.isLoading);
@@ -37,8 +39,8 @@ export default function LoginPage() {
 
       pushToast(
         code === "ACCOUNT_DISABLED"
-          ? "ບັນຊີຂອງທ່ານຖືກປິດການໃຊ້ງານ ກະລຸນາຕິດຕໍ່ເຈົ້າຂອງຫ້ອງເຊົ່າ"
-          : error.response?.data?.message || "ບໍ່ສາມາດເຂົ້າລະບົບໄດ້",
+          ? t('login.disabled', 'ບັນຊີຂອງທ່ານຖືກປິດການໃຊ້ງານ ກະລຸນາຕິດຕໍ່ເຈົ້າຂອງຫ້ອງເຊົ່າ')
+          : error.response?.data?.message || t('login.failed', 'ບໍ່ສາມາດເຂົ້າລະບົບໄດ້'),
         "error",
       );
     }
@@ -51,18 +53,16 @@ export default function LoginPage() {
           <div className="w-fit rounded-3xl bg-white/10 p-4">
             <Building2 className="h-10 w-10" />
           </div>
-          <h1 className="mt-6 text-4xl font-black">ບີຫ້ອງເຊົ່າ</h1>
+          <h1 className="mt-6 text-4xl font-black">{t('login.app_name', 'ບີຫ້ອງເຊົ່າ')}</h1>
         </div>
 
         <div className="card p-8">
-          <h2 className="text-3xl font-bold text-slate-950">ເຂົ້າລະບົບ</h2>
-          <p className="mt-2 text-sm text-slate-500">
-            ໃສ່ອີເມວ ແລະ ລະຫັດຜ່ານເພື່ອເຂົ້າໃຊ້ລະບົບ
-          </p>
+          <h2 className="text-3xl font-bold text-slate-950">{t('login.button', 'ເຂົ້າລະບົບ')}</h2>
+          <p className="mt-2 text-sm text-slate-500">{t('login.subtitle', 'ໃສ່ອີເມວ ແລະ ລະຫັດຜ່ານເພື່ອເຂົ້າໃຊ້ລະບົບ')}</p>
 
           <form className="mt-6 space-y-4" onSubmit={onSubmit}>
             <div>
-              <label className="label">ອີເມວ</label>
+              <label className="label">{t('login.email', 'ອີເມວ')}</label>
               <div className="relative">
                 <Mail className="absolute left-4 top-3.5 h-4 w-4 text-slate-400" />
                 <input
@@ -78,7 +78,7 @@ export default function LoginPage() {
             </div>
 
             <div>
-              <label className="label">ລະຫັດຜ່ານ</label>
+              <label className="label">{t('login.password', 'ລະຫັດຜ່ານ')}</label>
               <div className="relative">
                 <KeyRound className="absolute left-4 top-3.5 h-4 w-4 text-slate-400" />
                 <input
@@ -98,7 +98,7 @@ export default function LoginPage() {
               className="btn-primary w-full"
               disabled={isLoading}
             >
-              {isLoading ? "ກຳລັງເຂົ້າລະບົບ..." : "ເຂົ້າລະບົບ"}
+              {isLoading ? t('login.loading', 'ກຳລັງເຂົ້າລະບົບ...') : t('login.button', 'ເຂົ້າລະບົບ')}
             </button>
           </form>
         </div>

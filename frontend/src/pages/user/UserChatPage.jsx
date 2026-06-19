@@ -1,3 +1,4 @@
+import { useTranslation } from '../../utils/i18n';
 import { Send } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import PageHeader from '../../components/common/PageHeader';
@@ -8,6 +9,7 @@ import Toast from '../../components/common/Toast';
 import { useToast } from '../../components/common/useToast';
 
 export default function UserChatPage() {
+  const { t } = useTranslation();
   const user = useAuthStore((state) => state.user);
   const [adminId, setAdminId] = useState('');
   const [messages, setMessages] = useState([]);
@@ -48,13 +50,13 @@ export default function UserChatPage() {
       setText('');
       loadChat(adminId);
     } catch (error) {
-      pushToast(error.response?.data?.message || 'ສົ່ງບໍ່ສຳເລັດ', 'error');
+      pushToast(error.response?.data?.message || t('k_0107', 'ສົ່ງບໍ່ສຳເລັດ'), 'error');
     }
   };
 
   return (
     <div className="space-y-6">
-      <PageHeader title="ແຊັດກັບ admin" subtitle={adminId ? 'ພ້ອມສົນທະນາແລ້ວ' : 'ກຳລັງຊອກຫາ admin...'} />
+      <PageHeader title={t('k_0167', 'ແຊັດກັບ admin')} subtitle={adminId ? t('k_0089', 'ພ້ອມສົນທະນາແລ້ວ') : t('k_0014', 'ກຳລັງຊອກຫາ admin...')} />
       <div className="card flex h-[70vh] flex-col overflow-hidden">
         <div className="flex-1 space-y-4 overflow-y-auto p-5">
           {messages.length > 0 ? messages.map((item) => {
@@ -67,7 +69,7 @@ export default function UserChatPage() {
                 </div>
               </div>
             );
-          }) : <div className="text-sm text-slate-500">ຍັງບໍ່ມີຂໍ້ຄວາມ</div>}
+          }) : <div className="text-sm text-slate-500">{t('k_0048', 'ຍັງບໍ່ມີຂໍ້ຄວາມ')}</div>}
         </div>
         <form onSubmit={send} className="border-t border-slate-100 p-4">
           <div className="flex gap-3">

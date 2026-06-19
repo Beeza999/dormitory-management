@@ -1,4 +1,5 @@
-export function FullPageLoader({ text = 'ກຳລັງໂຫລດ...' }) {
+import { useTranslation } from '../../utils/i18n';
+export function FullPageLoader({ text = t('common.loading', 'ກຳລັງໂຫລດ...') }) {
   return (
     <div className="flex min-h-screen items-center justify-center bg-slate-100 px-4">
       <div className="card w-full max-w-md p-8 text-center">
@@ -10,6 +11,7 @@ export function FullPageLoader({ text = 'ກຳລັງໂຫລດ...' }) {
 }
 
 export function EmptyState({ title, text }) {
+  const { t } = useTranslation();
   return (
     <div className="card p-8 text-center">
       <h3 className="text-lg font-semibold text-slate-900">{title}</h3>

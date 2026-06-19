@@ -1,8 +1,10 @@
+import { useTranslation } from '../../utils/i18n';
 import { Navigate } from 'react-router-dom';
 import { useAuthStore } from '../../store/authStore';
 import { FullPageLoader } from '../common/Feedback';
 
 function RedirectByRole() {
+  const { t } = useTranslation();
   const user = useAuthStore((state) => state.user);
   if (user?.role === 'admin') return <Navigate to="/admin/dashboard" replace />;
   if (user?.role === 'user') return <Navigate to="/user/dashboard" replace />;
@@ -20,7 +22,7 @@ export function GuestRoute({ children }) {
 export function AdminRoute({ children }) {
   const { isAuthenticated, user } = useAuthStore();
   if (!isAuthenticated) return <Navigate to="/login" replace />;
-  if (!user) return <FullPageLoader text="ກຳລັງໂຫລດຂໍ້ມູນ..." />;
+  if (!user) return <FullPageLoader text={t('k_0016', 'ກຳລັງໂຫລດຂໍ້ມູນ...')} />;
   if (user.role !== 'admin') return <RedirectByRole />;
   return children;
 }
@@ -28,7 +30,7 @@ export function AdminRoute({ children }) {
 export function UserRoute({ children }) {
   const { isAuthenticated, user } = useAuthStore();
   if (!isAuthenticated) return <Navigate to="/login" replace />;
-  if (!user) return <FullPageLoader text="ກຳລັງໂຫລດຂໍ້ມູນ..." />;
+  if (!user) return <FullPageLoader text={t('k_0016', 'ກຳລັງໂຫລດຂໍ້ມູນ...')} />;
   if (user.role !== 'user') return <RedirectByRole />;
   return children;
 }

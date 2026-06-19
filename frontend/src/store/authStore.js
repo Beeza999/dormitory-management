@@ -1,3 +1,4 @@
+import { useTranslation } from '../utils/i18n';
 import { create } from 'zustand';
 import api from '../services/api';
 
@@ -6,7 +7,7 @@ const ຂຽນ = (key, value) => sessionStorage.setItem(key, value);
 const ລຶບ = (key) => sessionStorage.removeItem(key);
 
 const ຂໍ້ຄວາມບັນຊີຖືກປິດ =
-  'ບັນຊີຂອງທ່ານຖືກປິດການໃຊ້ງານ ກະລຸນາຕິດຕໍ່ເຈົ້າຂອງຫ້ອງເຊົ່າ';
+  t('login.disabled', 'ບັນຊີຂອງທ່ານຖືກປິດການໃຊ້ງານ ກະລຸນາຕິດຕໍ່ເຈົ້າຂອງຫ້ອງເຊົ່າ');
 
 const ຈັດຮູບແບບຜູ້ໃຊ້ = (user) => ({
   _id: user?._id || user?.id || '',

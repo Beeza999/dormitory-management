@@ -1,3 +1,4 @@
+import { useTranslation } from './i18n';
 export const fmtMoney = (value = 0) =>
   new Intl.NumberFormat('en-US').format(Number(value || 0)) + ' ກີບ';
 
@@ -9,12 +10,12 @@ export const fmtDate = (value) => {
 export const fmtMonthYear = (month, year) => `${String(month).padStart(2, '0')}/${year}`;
 
 export const statusLabel = (status = '') => ({
-  unpaid: 'ຄ້າງຈ່າຍ',
-  pending: 'ລໍກວດສອບ',
-  paid: 'ຈ່າຍແລ້ວ',
-  approved: 'ອະນຸມັດແລ້ວ',
-  rejected: 'ປະຕິເສດແລ້ວ',
-  vacant: 'ວ່າງ',
-  occupied: 'ມີຄົນຢູ່',
-  maintenance: 'ກຳລັງແປງ',
+  unpaid: t('k_0032', 'ຄ້າງຈ່າຍ'),
+  pending: t('k_0098', 'ລໍກວດສອບ'),
+  paid: t('k_0039', 'ຈ່າຍແລ້ວ'),
+  approved: t('k_0125', 'ອະນຸມັດແລ້ວ'),
+  rejected: t('k_0078', 'ປະຕິເສດແລ້ວ'),
+  vacant: t('k_0102', 'ວ່າງ'),
+  occupied: t('k_0090', 'ມີຄົນຢູ່'),
+  maintenance: t('k_0015', 'ກຳລັງແປງ'),
 }[status] || status);

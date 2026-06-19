@@ -1,3 +1,4 @@
+import { useTranslation } from '../../utils/i18n';
 import { useEffect, useMemo, useState } from 'react';
 import PageHeader from '../../components/common/PageHeader';
 import api from '../../services/api';
@@ -30,6 +31,7 @@ const ສ້າງຟອມເລີ່ມຕົ້ນ = () => ({
 });
 
 export default function BillingPage() {
+  const { t } = useTranslation();
   const [bills, setBills] = useState([]);
   const [tenants, setTenants] = useState([]);
   const [rooms, setRooms] = useState([]);
@@ -50,7 +52,7 @@ export default function BillingPage() {
       setTenants(Array.isArray(tenantRes.data?.tenants) ? tenantRes.data.tenants : []);
       setRooms(Array.isArray(roomRes.data?.rooms) ? roomRes.data.rooms : []);
     } catch (error) {
-      pushToast(error.response?.data?.message || 'ໂຫຼດຂໍ້ມູນບໍ່ສຳເລັດ', 'error');
+      pushToast(error.response?.data?.message || t('k_0169', 'ໂຫຼດຂໍ້ມູນບໍ່ສຳເລັດ'), 'error');
     }
   };
 
@@ -185,19 +187,17 @@ export default function BillingPage() {
       resetForm();
       loadData();
     } catch (error) {
-      pushToast(error.response?.data?.message || 'ບັນທຶກບິນບໍ່ສຳເລັດ', 'error');
+      pushToast(error.response?.data?.message || t('k_0058', 'ບັນທຶກບິນບໍ່ສຳເລັດ'), 'error');
     }
   };
 
   return (
     <div className="space-y-6">
       <PageHeader
-        title="ຈັດການບິນ"
-        subtitle="ສ້າງ ແລະ ແກ້ໄຂບິນພ້ອມຄຳນວນຄ່ານ້ຳຄ່າໄຟອັດຕະໂນມັດ"
+        title={t('k_0034', 'ຈັດການບິນ')}
+        subtitle={t('k_0114', 'ສ້າງ ແລະ ແກ້ໄຂບິນພ້ອມຄຳນວນຄ່ານ້ຳຄ່າໄຟອັດຕະໂນມັດ')}
         action={
-          <button className="btn-primary" onClick={openCreate}>
-            ສ້າງບິນໃໝ່
-          </button>
+          <button className="btn-primary" onClick={openCreate}>{t('k_0118', 'ສ້າງບິນໃໝ່')}</button>
         }
       />
 
@@ -205,13 +205,13 @@ export default function BillingPage() {
         <table className="table-ui">
           <thead>
             <tr>
-              <th>ຜູ້ເຊົ່າ</th>
-              <th>ຫ້ອງ</th>
-              <th>ເດືອນ/ປີ</th>
-              <th>ຍອດລວມ</th>
-              <th>ຄົບກຳນົດ</th>
-              <th>ສະຖານະ</th>
-              <th>ຈັດການ</th>
+              <th>{t('nav.tenants', 'ຜູ້ເຊົ່າ')}</th>
+              <th>{t('nav.rooms', 'ຫ້ອງ')}</th>
+              <th>{t('k_0136', 'ເດືອນ/ປີ')}</th>
+              <th>{t('k_0046', 'ຍອດລວມ')}</th>
+              <th>{t('k_0024', 'ຄົບກຳນົດ')}</th>
+              <th>{t('k_0103', 'ສະຖານະ')}</th>
+              <th>{t('k_0033', 'ຈັດການ')}</th>
             </tr>
           </thead>
 
@@ -231,22 +231,16 @@ export default function BillingPage() {
                   </td>
                   <td>
                     {bill.status === 'paid' ? (
-                      <span className="rounded-full bg-slate-100 px-3 py-2 text-xs font-semibold text-slate-500">
-                        ແກ້ໄຂບໍ່ໄດ້
-                      </span>
+                      <span className="rounded-full bg-slate-100 px-3 py-2 text-xs font-semibold text-slate-500">{t('k_0162', 'ແກ້ໄຂບໍ່ໄດ້')}</span>
                     ) : (
-                      <button className="btn-outline py-2" onClick={() => openEdit(bill)}>
-                        ແກ້ໄຂ
-                      </button>
+                      <button className="btn-outline py-2" onClick={() => openEdit(bill)}>{t('k_0159', 'ແກ້ໄຂ')}</button>
                     )}
                   </td>
                 </tr>
               ))
             ) : (
               <tr className="border-t border-slate-100">
-                <td colSpan="7" className="py-8 text-center text-sm text-slate-500">
-                  ບໍ່ມີຂໍ້ມູນບິນ
-                </td>
+                <td colSpan="7" className="py-8 text-center text-sm text-slate-500">{t('k_0065', 'ບໍ່ມີຂໍ້ມູນບິນ')}</td>
               </tr>
             )}
           </tbody>
@@ -259,18 +253,18 @@ export default function BillingPage() {
           setOpen(false);
           resetForm();
         }}
-        title={editingId ? 'ແກ້ໄຂບິນ' : 'ສ້າງບິນໃໝ່'}
+        title={editingId ? t('k_0160', 'ແກ້ໄຂບິນ') : t('k_0118', 'ສ້າງບິນໃໝ່')}
       >
         <form onSubmit={submit} className="grid gap-4 md:grid-cols-2">
           <div>
-            <label className="label">ຜູ້ເຊົ່າ</label>
+            <label className="label">{t('nav.tenants', 'ຜູ້ເຊົ່າ')}</label>
             <select
               className="input"
               value={form.userId}
               onChange={(e) => onTenantChange(e.target.value)}
               required
             >
-              <option value="">ເລືອກຜູ້ເຊົ່າ</option>
+              <option value="">{t('k_0154', 'ເລືອກຜູ້ເຊົ່າ')}</option>
               {tenants.map((tenant) => (
                 <option key={tenant._id} value={tenant._id}>
                   {tenant.name}
@@ -280,14 +274,14 @@ export default function BillingPage() {
           </div>
 
           <div>
-            <label className="label">ຫ້ອງ</label>
+            <label className="label">{t('nav.rooms', 'ຫ້ອງ')}</label>
             <select
               className="input"
               value={form.roomId}
               onChange={(e) => fillRoomData(e.target.value)}
               required
             >
-              <option value="">ເລືອກຫ້ອງ</option>
+              <option value="">{t('k_0156', 'ເລືອກຫ້ອງ')}</option>
               {roomsAvailable.map((room) => (
                 <option key={room._id} value={room._id}>
                   {room.building}-{room.roomNumber}
@@ -297,7 +291,7 @@ export default function BillingPage() {
           </div>
 
           <div>
-            <label className="label">ເດືອນ</label>
+            <label className="label">{t('k_0135', 'ເດືອນ')}</label>
             <input
               className="input"
               type="number"
@@ -310,7 +304,7 @@ export default function BillingPage() {
           </div>
 
           <div>
-            <label className="label">ປີ</label>
+            <label className="label">{t('k_0083', 'ປີ')}</label>
             <input
               className="input"
               type="number"
@@ -321,13 +315,13 @@ export default function BillingPage() {
           </div>
 
           <div>
-            <label className="label">ຄ່າຫ້ອງ</label>
+            <label className="label">{t('k_0027', 'ຄ່າຫ້ອງ')}</label>
             <input className="input bg-slate-50" type="number" value={form.rentAmount} readOnly />
-            <p className="mt-1 text-xs text-slate-500">ດຶງຈາກຂໍ້ມູນຫ້ອງອັດຕະໂນມັດ</p>
+            <p className="mt-1 text-xs text-slate-500">{t('k_0052', 'ດຶງຈາກຂໍ້ມູນຫ້ອງອັດຕະໂນມັດ')}</p>
           </div>
 
           <div>
-            <label className="label">ວັນຄົບກຳນົດ</label>
+            <label className="label">{t('k_0099', 'ວັນຄົບກຳນົດ')}</label>
             <input
               className="input"
               type="date"
@@ -338,7 +332,7 @@ export default function BillingPage() {
           </div>
 
           <div>
-            <label className="label">ໜ່ວຍນ້ຳ</label>
+            <label className="label">{t('k_0171', 'ໜ່ວຍນ້ຳ')}</label>
             <input
               className="input"
               type="number"
@@ -346,18 +340,17 @@ export default function BillingPage() {
               value={form.waterUnits}
               onChange={(e) => setForm((prev) => ({ ...prev, waterUnits: e.target.value }))}
             />
-            <p className="mt-1 text-xs text-slate-500">
-              ຄ່ານ້ຳຕໍ່ໜ່ວຍ {fmtMoney(form.waterRate)}
+            <p className="mt-1 text-xs text-slate-500">{t('k_0026', 'ຄ່ານ້ຳຕໍ່ໜ່ວຍ')}{fmtMoney(form.waterRate)}
             </p>
           </div>
 
           <div>
-            <label className="label">ຄ່ານ້ຳ</label>
+            <label className="label">{t('k_0025', 'ຄ່ານ້ຳ')}</label>
             <input className="input bg-slate-50" type="number" value={form.waterAmount} readOnly />
           </div>
 
           <div>
-            <label className="label">ໜ່ວຍໄຟ</label>
+            <label className="label">{t('k_0172', 'ໜ່ວຍໄຟ')}</label>
             <input
               className="input"
               type="number"
@@ -365,13 +358,12 @@ export default function BillingPage() {
               value={form.electricUnits}
               onChange={(e) => setForm((prev) => ({ ...prev, electricUnits: e.target.value }))}
             />
-            <p className="mt-1 text-xs text-slate-500">
-              ຄ່າໄຟຕໍ່ໜ່ວຍ {fmtMoney(form.electricRate)}
+            <p className="mt-1 text-xs text-slate-500">{t('k_0031', 'ຄ່າໄຟຕໍ່ໜ່ວຍ')}{fmtMoney(form.electricRate)}
             </p>
           </div>
 
           <div>
-            <label className="label">ຄ່າໄຟ</label>
+            <label className="label">{t('k_0030', 'ຄ່າໄຟ')}</label>
             <input
               className="input bg-slate-50"
               type="number"
@@ -381,7 +373,7 @@ export default function BillingPage() {
           </div>
 
           <div>
-            <label className="label">ຄ່າອື່ນ</label>
+            <label className="label">{t('k_0028', 'ຄ່າອື່ນ')}</label>
             <input
               className="input"
               type="number"
@@ -392,13 +384,13 @@ export default function BillingPage() {
           </div>
 
           <div>
-            <label className="label">ຍອດລວມ</label>
+            <label className="label">{t('k_0046', 'ຍອດລວມ')}</label>
             <input className="input bg-slate-50" type="number" value={form.totalAmount} readOnly />
           </div>
 
           {editingId ? (
             <div>
-              <label className="label">ສະຖານະ</label>
+              <label className="label">{t('k_0103', 'ສະຖານະ')}</label>
               <select
                 className="input"
                 value={form.status}
@@ -414,12 +406,12 @@ export default function BillingPage() {
           )}
 
           <div className="md:col-span-2">
-            <label className="label">ໝາຍເຫດ</label>
+            <label className="label">{t('k_0174', 'ໝາຍເຫດ')}</label>
             <textarea
               className="input min-h-[110px]"
               value={form.note}
               onChange={(e) => setForm((prev) => ({ ...prev, note: e.target.value }))}
-              placeholder="ລາຍລະອຽດເພີ່ມເຕີມ"
+              placeholder={t('k_0092', 'ລາຍລະອຽດເພີ່ມເຕີມ')}
             />
           </div>
 
@@ -431,12 +423,10 @@ export default function BillingPage() {
                 setOpen(false);
                 resetForm();
               }}
-            >
-              ຍົກເລີກ
-            </button>
+            >{t('k_0049', 'ຍົກເລີກ')}</button>
 
             <button type="submit" className="btn-primary">
-              {editingId ? 'ບັນທຶກການແກ້ໄຂ' : 'ສ້າງບິນ'}
+              {editingId ? t('k_0056', 'ບັນທຶກການແກ້ໄຂ') : t('k_0116', 'ສ້າງບິນ')}
             </button>
           </div>
         </form>
