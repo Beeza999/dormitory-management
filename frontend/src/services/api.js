@@ -9,7 +9,7 @@ const getToken = () => sessionStorage.getItem('token') || '';
 api.interceptors.request.use((config) => {
   const token = getToken();
   if (token) {
-    config.headers.Authorization = \Bearer \\;
+    config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
 });
@@ -18,7 +18,7 @@ export const getAssetUrl = (path = '') => {
   if (!path) return '';
   const rawBase = import.meta.env.VITE_API_ROOT || '';
   if (path.startsWith('http')) return path;
-  return \\\\;
+  return `${rawBase}${path}`;
 };
 
 export default api;
